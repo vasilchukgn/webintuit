@@ -13,7 +13,7 @@ public class Main {
 		MessageSystem ms = new MessageSystemImpl();
 		   
 	    AccountServiceImpl accountService = new AccountServiceImpl(ms);
-		FrontendImpl frontend = new FrontendImpl(ms);
+		FrontendImpl frontend = new FrontendImpl(ms, accountService);
 	    
 	    (new Thread(frontend)).start();
 	    (new Thread(accountService)).start();   			

@@ -32,6 +32,7 @@ public class MessageSystemImpl implements MessageSystem {
         }
         while(!messageQueue.isEmpty()){
             Msg message = messageQueue.poll();
+//            System.out.println("from MessageSystem");
             message.exec(abonent);
         }
     }

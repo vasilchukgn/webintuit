@@ -13,10 +13,12 @@ import local.web.server.utils.TimeHelper;
 public class AccountServiceImpl implements AccountService, Abonent, Runnable {
     private Address address;
     private MessageSystem ms;
+    private Integer id;
     
     private Map<String, Integer> Accounter = new HashMap<String, Integer>();
     
     public AccountServiceImpl(MessageSystem ms){
+    	id = 0;
         this.ms = ms;
         this.address = new Address();
         ms.addService(this);
@@ -43,7 +45,8 @@ public class AccountServiceImpl implements AccountService, Abonent, Runnable {
         return ms;
     }
     
-	public void setAccounter(String name, Integer id){
+	public void setAccounter(String name){
+		id++;
 		Accounter.put(name, id);
 	}
 }

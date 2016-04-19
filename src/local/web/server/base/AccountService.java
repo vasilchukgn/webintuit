@@ -5,5 +5,5 @@ public interface AccountService extends Abonent {
 	
 	Integer getUserId(String name);
 
-	void setAccounter(String name, Integer id);
+	void setAccounter(String name);
 }

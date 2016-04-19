@@ -14,24 +14,31 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import local.web.server.base.Abonent;
 import local.web.server.base.AccountService;
 import local.web.server.base.Address;
+import local.web.server.base.AddressService;
+import local.web.server.base.Data;
 import local.web.server.base.Frontend;
 import local.web.server.base.MessageSystem;
+//import local.web.server.base.Msg;
+import local.web.server.messageSystem.MsgToAS;
 import local.web.server.utils.TimeHelper;
+//import local.web.server.accountService.AccountServiceImpl;
 
 public class FrontendImpl extends AbstractHandler implements Frontend, Abonent, Runnable {
 //	private static final long serialVersionUID = 1L;
-	private int userID;
+//	private int userID;
 	private MessageSystem ms;
+	private AccountService accountService;
 	private Address address;
 	public Map<String, Integer> nameToId = new HashMap<String, Integer>();
 	
 	
-	public FrontendImpl(MessageSystem ms) {
+	public FrontendImpl(MessageSystem ms, AccountService accountService) {
 		super();
         this.ms = ms;
         this.address = new Address();
         ms.addService(this);
-		userID = 0;
+        this.accountService = accountService;
+//		userID = 0;
 		System.out.println("Frontend created");
 	}
 	
@@ -78,7 +85,6 @@ public class FrontendImpl extends AbstractHandler implements Frontend, Abonent, 
 		return request.getParameter("user");
 	}
 	
-	
 	public void handle(String target, Request baseRequest,
             HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -90,9 +96,12 @@ public class FrontendImpl extends AbstractHandler implements Frontend, Abonent, 
         String user = renderLoginPage(request, response);
         
         if ((user != null) && (user.length() != 0)) {
-        	userID++;
-        	setId(user, userID);
-        	response.getWriter().println("user: " + user + " ID: " + userID);
+        	MsgToAS msg2as = new MsgToAS(getAddress(), accountService.getAddress(), new Data("RequestName", user));
+        	ms.sendMessage(msg2as);
+        	
+//        	userID++;
+//        	setId(user, userID);
+//        	response.getWriter().println("user: " + user + " ID: " + userID);
         }
 	}
 }

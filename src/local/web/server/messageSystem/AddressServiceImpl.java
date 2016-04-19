@@ -14,6 +14,13 @@ public class AddressServiceImpl implements AddressService {
         return addresses.get(abonentClass);
     }
     
+/*    public Address getAddressAS() {
+    	return addresses.get();
+    }
+*/    
+    Address getAddressAS();    
+    Address getAddressFrontend();   
+    
     public void setAddress(Abonent abonent) {
         addresses.put(abonent.getClass(), abonent.getAddress());
     }
